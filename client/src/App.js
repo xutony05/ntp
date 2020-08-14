@@ -33,11 +33,14 @@ export default function App() {
 
   const handlePhotoDrop = (file) => {
     if (file[0]) {
+      var dict = {}
       var fd = new FormData();
-      setFile(file)
+      console.log(file)
       file.forEach(element => {
         fd.append('file', element)
+        dict[element.name] = element
       });
+      setFile(dict)
       axios.post("http://127.0.0.1:5000/predict", fd)
         .then(res => setResult(res.data))
         .catch(err => console.log(err))
@@ -63,13 +66,24 @@ export default function App() {
       )
     }
 
+    const renderImage = (name) => {
+      try {
+        return (<img src={URL.createObjectURL(file[name])} width="60%" />)
+      }
+      catch{
+        return name
+      }
+    }
+
+
     if (result) {
       return (
         <TableContainer component={Paper}>
           <Typography variant="h4" gutterBottom style={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
+            margin: '0.5em'
           }}>
             Prediction
           </Typography>
@@ -84,7 +98,7 @@ export default function App() {
             <TableBody>
               {Object.entries(result).map(([key, value]) => (
                 <TableRow key={key}>
-                  <TableCell align="center">{key}</TableCell>
+                  <TableCell align="center">{renderImage(key)}</TableCell>
                   <TableCell align="center">{value ? <b>Tornado</b> : <b>Not a tornado</b>}</TableCell>
                   <TableCell align="center">{renderFeedback()}</TableCell>
                 </TableRow>
@@ -101,7 +115,7 @@ export default function App() {
       <Typography style={{ marginTop: '1%' }} variant="h2" gutterBottom>
         Is it a tornado?
       </Typography>
-      <div style={{ width: '80%', margin: '2%' }}>
+      <div style={{ width: '90%', margin: '2%' }}>
         <DropzoneArea
           acceptedFiles={['image/*']}
           showPreviews={true}
@@ -111,7 +125,9 @@ export default function App() {
           onChange={handlePhotoDrop}
         />
       </div>
-      {renderResult()}
+      <div style={{ width: '90%' }}>
+        {renderResult()}
+      </div>
     </div>
   );
 }
