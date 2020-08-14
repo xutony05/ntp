@@ -68,7 +68,7 @@ export default function App() {
 
     const renderImage = (name) => {
       try {
-        return (<img src={URL.createObjectURL(file[name])} width="60%" />)
+        return (<img src={URL.createObjectURL(file[name])} width="300em" />)
       }
       catch{
         return name
