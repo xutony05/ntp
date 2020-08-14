@@ -23,24 +23,26 @@ def hello_world():
 def ifTornado():
     ans = None
     print("ran")
-    path = request.files['file']
-    img = Image.open(path).convert("RGB")
-    img = img.resize((300,300))
-    x = image.img_to_array(img)
-    x = x / 255.0
-    x = np.expand_dims(x, axis=0)
-    images = np.vstack([x])
-    classes = model.predict(images)
-    print(classes)
-    if classes[0] > 0.5:
-        ans = True
-    else:
-        ans = False
-    return ({"prediction": ans})
+    output = {}
+    for path in request.files.getlist('file'):
+        print(path)
+        img = Image.open(path).convert("RGB")
+        img = img.resize((300,300))
+        x = image.img_to_array(img)
+        x = x / 255.0
+        x = np.expand_dims(x, axis=0)
+        images = np.vstack([x])
+        classes = model.predict(images)
+        print(classes)
+        if classes[0] > 0.5:
+            output[path.filename] = True
+        else:
+            output[path.filename] = False
+    return (output)
 
 
 if __name__ == "__main__":
     print(("* Loading Keras model and Flask starting server..."
            "please wait until server has fully started"))
     init()
-    app.run(debug=True,host="0.0.0.0",use_reloader=False)
+    app.run(debug=True,host="0.0.0.0",use_reloader=True)

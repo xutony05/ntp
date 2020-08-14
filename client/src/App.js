@@ -22,24 +22,15 @@ export default function App() {
   const handlePhotoDrop = (file) => {
     if (file[0]) {
       var fd = new FormData();
-      fd.append("file", file[0]);
-      console.log(fd)
+      file.forEach(element => {
+        fd.append('file', element)
+        console.log(element)
+      });
       axios.post("http://127.0.0.1:5000/predict", fd)
         .then(res => console.log(res))
         .catch(err => console.log(err))
     }
-    /*var image
-    if (file[0]) {
-      const im = new Image()
-      var fr = new FileReader();
-      fr.onload = function () {
-        im.src = fr.result;
-      }
-      fr.readAsDataURL(file[0]);
-      im.onload = () => {
-        image = tf.browser.fromPixels(im)
-      }
-    }*/
+
   }
 
   return (
