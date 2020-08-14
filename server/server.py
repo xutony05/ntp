@@ -11,13 +11,8 @@ CORS(app)
 
 def init():
     global model
-    model = tf.keras.models.load_model('./server/1')
+    model = tf.keras.models.load_model('./server/2')
     print("***model loaded***")
-
-# Testing URL
-@app.route('/hello', methods=['GET', 'POST'])
-def hello_world():
-    return 'Hello, World!'
 
 @app.route('/predict', methods=['POST'])
 def ifTornado():
@@ -34,7 +29,7 @@ def ifTornado():
         images = np.vstack([x])
         classes = model.predict(images)
         print(classes)
-        if classes[0] > 0.5:
+        if classes[0][0] < 0.5:
             output[path.filename] = True
         else:
             output[path.filename] = False
