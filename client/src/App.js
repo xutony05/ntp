@@ -30,6 +30,7 @@ export default function App() {
   const classes = useStyles()
   const [result, setResult] = useState()
   const [file, setFile] = useState()
+  const [buttonArray, setButtonArray] = useState([])
 
   const handlePhotoDrop = (file) => {
     if (file[0]) {
@@ -52,21 +53,37 @@ export default function App() {
 
   const renderResult = () => {
     const renderFeedback = (name, prediction) => {
-      return (
-        <div>
-          <Typography variant="subtitle1">
-            I'm still learning, did I get it correct?
-          </Typography>
+      console.log(buttonArray)
+      console.log(typeof (buttonArray))
+      if (buttonArray.indexOf(name) === -1) {
+        return (
           <div>
-            <Button style={{ margin: '0.25em' }} onClick={() => uploadFeedback(name, prediction, true)} size="small" variant="contained" color="primary">
-              You're so smart
+            <Typography variant="subtitle1">
+              I'm still learning, did I get it correct?
+          </Typography>
+            <div>
+              <Button style={{ margin: '0.25em' }} onClick={() => {
+                uploadFeedback(name, prediction, true)
+                setButtonArray([...buttonArray, name])
+              }
+              } size="small" variant="contained" color="primary">
+                You're so smart
             </Button>
-            <Button style={{ margin: '0.25em' }} onClick={() => uploadFeedback(name, prediction, false)} size="small" variant="contained" color="secondary">
-              Better luck next time
+              <Button style={{ margin: '0.25em' }} onClick={() => {
+                uploadFeedback(name, prediction, false)
+                setButtonArray([...buttonArray, name])
+              }} size="small" variant="contained" color="secondary">
+                Better luck next time
             </Button>
+            </div>
           </div>
-        </div>
-      )
+        )
+      }
+      else {
+        return (
+          <Typography>Thank you!</Typography>
+        )
+      }
     }
 
     const renderImage = (name) => {
@@ -96,7 +113,6 @@ export default function App() {
           .catch(err => console.log(err))
       }
     }
-
 
     if (result) {
       return (
