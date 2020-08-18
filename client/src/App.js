@@ -48,17 +48,17 @@ export default function App() {
   }
 
   const renderResult = () => {
-    const renderFeedback = () => {
+    const renderFeedback = (name, prediction) => {
       return (
         <div>
           <Typography variant="subtitle1">
             I'm still learning, did I get it correct?
           </Typography>
           <div>
-            <Button style={{ margin: '0.25em' }} size="small" variant="contained" color="primary">
+            <Button style={{ margin: '0.25em' }} onClick={uploadFeedback(name, prediction, true)} size="small" variant="contained" color="primary">
               You're so smart
             </Button>
-            <Button style={{ margin: '0.25em' }} size="small" variant="contained" color="secondary">
+            <Button style={{ margin: '0.25em' }} onClick={uploadFeedback(name, prediction, false)} size="small" variant="contained" color="secondary">
               Better luck next time
             </Button>
           </div>
@@ -72,6 +72,20 @@ export default function App() {
       }
       catch{
         return name
+      }
+    }
+
+    const uploadFeedback = (name, prediction, correct) => {
+      if (!correct) {
+        prediction = !prediction
+      }
+      var fd = new FormData();
+      fd.append('file', file[name])
+      if (prediction) {
+        axios.post("http://127.0.0.1:5000/upload-tornadic", fd)
+      }
+      else {
+        axios.post("http://127.0.0.1:5000/upload-nontornadic", fd)
       }
     }
 
@@ -100,7 +114,7 @@ export default function App() {
                 <TableRow key={key}>
                   <TableCell align="center">{renderImage(key)}</TableCell>
                   <TableCell align="center">{value ? <b>Tornado</b> : <b>Not a tornado</b>}</TableCell>
-                  <TableCell align="center">{renderFeedback()}</TableCell>
+                  <TableCell align="center">{renderFeedback(key, value)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
