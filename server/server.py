@@ -5,6 +5,7 @@ import tensorflow as tf
 from flask_cors import CORS, cross_origin
 from PIL import Image
 from google.cloud import storage
+from flask import jsonify
 
 app = Flask(__name__)
 CORS(app)
@@ -20,7 +21,6 @@ def ifTornado():
     ans = None
     print("ran")
     output = {}
-    print(request)
     for path in request.files.getlist('file'):
         print(path)
         img = Image.open(path).convert("RGB")
@@ -31,23 +31,23 @@ def ifTornado():
         images = np.vstack([x])
         classes = model.predict(images)
         print(classes)
-        gcs = storage.Client.from_service_account_json('./server/neuralstyletransfer.json')
-        bucket = gcs.get_bucket('unlabelled-data')
         if classes[0][0] < 0.5:
             output[path.filename] = True
-            blob = bucket.blob("Tornadic/" + path.filename)
-            blob.upload_from_string(
-                path.read(),
-                content_type=path.content_type
-            )
         else:
             output[path.filename] = False
-            blob = bucket.blob("Non-tornadic/" + path.filename)
-            blob.upload_from_string(
-                path.read(),
-                content_type=path.content_type
-            )
     return (output)
+
+@app.route('/upload-unlabelled', methods=['POST'])
+def uploadUnlabelled():
+    gcs = storage.Client.from_service_account_json('./server/neuralstyletransfer.json')
+    bucket = gcs.get_bucket('unlabelled-data')
+    for path in request.files.getlist('file'):
+        blob = bucket.blob(path.filename)
+        blob.upload_from_string(
+            path.read(),
+            content_type=path.content_type
+        )
+    return jsonify(success=True)
 
 @app.route('/upload-tornadic', methods=['POST'])
 def uploadTornadic():
@@ -59,7 +59,7 @@ def uploadTornadic():
                 uploaded_file.read(),
                 content_type=uploaded_file.content_type
             )
-    return blob.public_url
+    return jsonify(success=True)
 
 @app.route('/upload-nontornadic', methods=['POST'])
 def uploadNontornadic():
@@ -71,7 +71,7 @@ def uploadNontornadic():
                 uploaded_file.read(),
                 content_type=uploaded_file.content_type
             )
-    return blob.public_url
+    return jsonify(success=True)
 
 if __name__ == "__main__":
     print(("* Loading Keras model and Flask starting server..."

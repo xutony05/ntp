@@ -44,6 +44,9 @@ export default function App() {
       axios.post("http://127.0.0.1:5000/predict", fd)
         .then(res => setResult(res.data))
         .catch(err => console.log(err))
+      axios.post("http://127.0.0.1:5000/upload-unlabelled", fd)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
     }
   }
 
@@ -55,10 +58,10 @@ export default function App() {
             I'm still learning, did I get it correct?
           </Typography>
           <div>
-            <Button style={{ margin: '0.25em' }} onClick={uploadFeedback(name, prediction, true)} size="small" variant="contained" color="primary">
+            <Button style={{ margin: '0.25em' }} onClick={() => uploadFeedback(name, prediction, true)} size="small" variant="contained" color="primary">
               You're so smart
             </Button>
-            <Button style={{ margin: '0.25em' }} onClick={uploadFeedback(name, prediction, false)} size="small" variant="contained" color="secondary">
+            <Button style={{ margin: '0.25em' }} onClick={() => uploadFeedback(name, prediction, false)} size="small" variant="contained" color="secondary">
               Better luck next time
             </Button>
           </div>
@@ -76,6 +79,7 @@ export default function App() {
     }
 
     const uploadFeedback = (name, prediction, correct) => {
+      console.log(name)
       if (!correct) {
         prediction = !prediction
       }
@@ -83,9 +87,13 @@ export default function App() {
       fd.append('file', file[name])
       if (prediction) {
         axios.post("http://127.0.0.1:5000/upload-tornadic", fd)
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
       }
       else {
         axios.post("http://127.0.0.1:5000/upload-nontornadic", fd)
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
       }
     }
 
