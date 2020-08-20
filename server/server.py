@@ -6,16 +6,20 @@ from flask_cors import CORS, cross_origin
 from PIL import Image
 from google.cloud import storage
 from flask import jsonify
+from gevent.pywsgi import WSGIServer
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../client/build", static_url_path="/")
 CORS(app)
-
 
 def init():
     global model
-    model = tf.keras.models.load_model('./server/2')
+    model = tf.keras.models.load_model('server/2')
     print("***model loaded***")
 
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+    
 @app.route('/predict', methods=['POST'])
 def ifTornado():
     ans = None
