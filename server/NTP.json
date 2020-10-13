@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "ntp-tornado",
+  "private_key_id": "32b38e0b9d4280c6fe72cd127c5b2307f0dd16ab",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCpyCbLQffLqbfx\nOdEd5CtoPTS2OyHuhnxaIhkdS+dfxS4eOWUWEm1IrEQzGkxoG+pp6xtzo4NIdinx\n/jw9xvvVmWfvzQJbs5uCRZErz3tH1/P+I1PXlLF0PVFV5lFUxcnFsWyhwAuQ1sWF\nJVxZhjPi6MGzQSgTCCEfwSbzhPBMjerBjRDoRArpzEL+VX3FFBiaF2qDF0KenN+f\ndb07vr8Qz3r/E4cSRw/GX0+16dyyPApEQZ7MFpeU8vxEeESvjwOSzAoFiJjXueem\nBIt5WsZh8RRWdlL/AjNGs+TZ84NVW2WA7BX1Sdzunm7SNOPUf3jrFuLYU2FFQQqI\nYsMZ8BJXAgMBAAECggEAC2wMuBXrDsePOWpTWDh2dx/PAQd/Y+WmTgYHPIJTwYyp\nap0f4NlCguYb/HgjdcmS/qczhJcWiPRyI/afpORTIu6cIHThWLv/lUcK2jCuMYok\nvw8vX8yAF7rcUvQYuqRHy8YA8ezSml7okOmPifJOYVCZX27dvFIKsHE1JqLl67Bw\nb2iYmNkF1Q8q4ArCL+umCzB1KRMZkIF1cpufsC6+MImA22PsLQuDUWU7ds1dnxD7\n1ANPQXBUPw8CbxI4C1xtOaRt9PmC+qJpYB3ldYbdEPJVWlpUFFAxsXv/NOjBdc/2\nIBNXBEG13MUMNFS6/Uc65HPb2tbtLFYOwvbCbhCbIQKBgQDWsYUyugjZ+sT7rP0G\njjuxTFwDXQRsGJtjoT/KS3VTFcZbcBNXlmZBlUKptvbKzfLkQl7QZbrBBK/OOO+B\n3LJDnzk5NBQWh9NepczXZ5lUuY2PPFjx/TaV5XBczVLwDkDzi83iknZoXohyT2q+\nb5VSZdbitq+5CTLpzTIOrGbRhwKBgQDKco/Z6o1AuNsJ0RsFi6B9qtYIl1boqXsh\nD/lQX5GSk4bsS4tUafRo4Ivnx4JYTBE9aC9gNfVRK5D0rJAvt18CXyBWsChkHGA8\nGD1rDz19g37ZqPfnNicBcPV0XxQ3KCGXLHutSKfI9WlAEwWkYKnOg+3SzTpyOH/7\n3CPKu/ossQKBgQCsVSa0BzyfrHl+A+e+4WDs+nxJftrT4hSpLoBD47ozjSEBuL7t\n6Z3/Os6d6G3FcPdtXhE5es8jrJ1qDa3DMeIuAZsvXaxaQYDbUn9Q0Kn1plQJC8nh\nxP2R6O/+rhnK88YTOL91BVfigy9HgpQOdQcJcxHAPiBjiQzDO6DYwm5t9QKBgA13\nFzhQUHrYkMETZm+0/MS/AyNpJX+uHiFx1YxR/vW32EaJM8g2j+oV3VhaPcIvtQnX\njycgD6QJeMe9Xo297ZTTzOvXJaia9o+osRUY22cowtwpT+vR/0AqSjkmRcrxYWKT\ns9ovtfE42XpIiZyITWMOBVh7DAMi3OhcmQjX/ejRAoGACyTXziPWqIUhzmKCaKWA\nxdVIDPvCwbDYyPQDLPRpC1jBkW4usTxDa2ks937yS9Tx8+/jK9zrgYByHCDI7JyE\nWaz0ExPXRpjgxZBrXkyKhvGabc1qXefU4fUVrrhl08ww86RCP2shGYxFwGNf8Ae1\n7pExkWj5UvBluOPpfMHHXlw=\n-----END PRIVATE KEY-----\n",
+  "client_email": "aiplatform@ntp-tornado.iam.gserviceaccount.com",
+  "client_id": "105757563532449771580",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/aiplatform%40ntp-tornado.iam.gserviceaccount.com"
+}

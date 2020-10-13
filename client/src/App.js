@@ -12,6 +12,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +33,7 @@ export default function App() {
   const [result, setResult] = useState()
   const [file, setFile] = useState()
   const [buttonArray, setButtonArray] = useState([])
+  let JSZip = require('jszip');
 
   const handlePhotoDrop = (file) => {
     if (file[0]) {
@@ -44,9 +47,6 @@ export default function App() {
       setFile(dict)
       axios.post("http://127.0.0.1:5000/predict", fd)
         .then(res => setResult(res.data))
-        .catch(err => console.log(err))
-      axios.post("http://127.0.0.1:5000/upload-unlabelled", fd)
-        .then(res => console.log(res))
         .catch(err => console.log(err))
     }
   }
@@ -90,28 +90,54 @@ export default function App() {
       try {
         return (<img src={URL.createObjectURL(file[name])} width="300em" />)
       }
-      catch{
+      catch {
         return name
       }
     }
 
     const uploadFeedback = (name, prediction, correct) => {
       console.log(name)
-      if (!correct) {
-        prediction = !prediction
-      }
-      var fd = new FormData();
-      fd.append('file', file[name])
-      if (prediction) {
-        axios.post("http://127.0.0.1:5000/upload-tornadic", fd)
-          .then(res => console.log(res))
-          .catch(err => console.log(err))
-      }
-      else {
-        axios.post("http://127.0.0.1:5000/upload-nontornadic", fd)
-          .then(res => console.log(res))
-          .catch(err => console.log(err))
-      }
+      result[name] = !prediction
+    }
+
+    const downloadTornadicFile = () => {
+      let zip = new JSZip()
+      Object.entries(result).map(([key, value]) => {
+        if (value == true) {
+          zip.file(key, file[key])
+        }
+      })
+      zip.generateAsync({ type: 'blob' }).then((blobdata) => {
+        // create zip blob file
+        let zipblob = new Blob([blobdata])
+
+        // For development and testing purpose
+        // Download the zipped file 
+        var elem = document.createElement("a")
+        elem.href = URL.createObjectURL(zipblob)
+        elem.download = 'tornadoes.zip'
+        elem.click()
+      })
+    }
+
+    const downloadNonTornadicFile = () => {
+      let zip = new JSZip()
+      Object.entries(result).map(([key, value]) => {
+        if (value == false) {
+          zip.file(key, file[key])
+        }
+      })
+      zip.generateAsync({ type: 'blob' }).then((blobdata) => {
+        // create zip blob file
+        let zipblob = new Blob([blobdata])
+
+        // For development and testing purpose
+        // Download the zipped file 
+        var elem = document.createElement("a")
+        elem.href = URL.createObjectURL(zipblob)
+        elem.download = 'tornadoes.zip'
+        elem.click()
+      })
     }
 
     if (result) {
@@ -125,6 +151,14 @@ export default function App() {
           }}>
             Prediction
           </Typography>
+          <Grid container justify="center">
+            <Button onClick={() => {
+              downloadTornadicFile()
+            }} variant="outlined" style={{ margin: '0.5em' }}>Download Tornadic Images</Button>
+            <Button onClick={() => {
+              downloadNonTornadicFile()
+            }} variant="outlined" style={{ margin: '0.5em' }}>Download Non-Tornadic Images</Button>
+          </Grid>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
